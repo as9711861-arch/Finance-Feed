@@ -3,207 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Finance Feed | Premium Market Insights</title>
-    <!-- Google Fonts for Classic Newspaper Look -->
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>The Finance Feed | Premium Insights</title>
+    <!-- Classic Fonts from Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --brand-color: #064e3b;
-            --brand-light: #ecfdf5;
-            --text-main: #111827;
-            --text-muted: #4b5563;
-            --bg-body: #f3f4f6;
-            --bg-card: #ffffff;
-            --border-color: #e5e7eb;
+            --bg-color: #f7f5f0; /* Classic Beige/Cream */
+            --text-dark: #1a1a1a;
+            --text-light: #5a5a5a;
+            --accent: #2c4a3b; /* Deep Editorial Green */
+            --border: #d1cdc2;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: var(--bg-body); color: var(--text-main); font-family: 'Inter', sans-serif; line-height: 1.6; }
+        body { background-color: var(--bg-color); color: var(--text-dark); font-family: 'Inter', sans-serif; line-height: 1.6; }
 
-        /* Top Header & Secret Logo */
-        header { background-color: #ffffff; border-bottom: 1px solid var(--border-color); padding: 25px 20px; text-align: center; }
-        .logo-text { 
-            font-family: 'Merriweather', serif; font-size: 2.8rem; font-weight: 900; 
-            color: var(--brand-color); letter-spacing: -0.5px; margin-bottom: 5px;
-            cursor: default; /* Secret Click Target */
-            user-select: none;
-        }
-        .tagline { font-size: 0.95rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        /* Top Bar & Ticker */
+        .top-bar { border-bottom: 1px solid var(--border); background: #ffffff; }
+        
+        /* Header */
+        header { text-align: center; padding: 50px 20px 30px; border-bottom: 2px solid var(--text-dark); max-width: 1200px; margin: 0 auto; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 700; color: var(--text-dark); letter-spacing: -1px; text-transform: uppercase; margin-bottom: 10px; }
+        .tagline { font-family: 'Inter', sans-serif; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-light); }
 
-        /* Navigation Bar */
-        .nav-container { background: var(--brand-color); position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
-        nav { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; height: 60px; }
-        .nav-links { display: flex; gap: 5px; height: 100%; }
-        .nav-btn { background: transparent; border: none; color: #d1fae5; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.95rem; padding: 0 20px; cursor: pointer; height: 100%; transition: all 0.2s; }
-        .nav-btn:hover, .nav-btn.active { background: rgba(255,255,255,0.1); color: #ffffff; border-bottom: 3px solid #ffffff; }
-        .right-nav { display: flex; align-items: center; gap: 15px; }
-        .search-box { padding: 6px 15px; border-radius: 4px; border: none; outline: none; font-size: 0.9rem; width: 220px; }
+        /* Navigation */
+        nav { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: center; gap: 30px; border-bottom: 1px solid var(--border); }
+        .nav-btn { background: none; border: none; font-family: 'Inter', sans-serif; text-transform: uppercase; font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; color: var(--text-dark); cursor: pointer; padding-bottom: 5px; }
+        .nav-btn:hover, .nav-btn.active { border-bottom: 2px solid var(--accent); color: var(--accent); }
 
-        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; min-height: 60vh; }
-        .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; }
+        /* Main Container */
+        .container { max-width: 1200px; margin: 50px auto; padding: 0 20px; min-height: 60vh; }
 
-        /* Premium Article Card */
-        .card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer; display: flex; flex-direction: column; }
-        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.06); }
-        .card-img { width: 100%; height: 200px; object-fit: cover; border-bottom: 1px solid var(--border-color); }
-        .card-content { padding: 24px; flex: 1; display: flex; flex-direction: column; }
-        .category-tag { color: var(--brand-color); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
-        .card-title { font-family: 'Merriweather', serif; font-size: 1.35rem; font-weight: 700; color: var(--text-main); margin-bottom: 12px; line-height: 1.4; }
-        .card-summary { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px; flex: 1; }
-        .card-footer { font-size: 0.85rem; color: #6b7280; border-top: 1px solid var(--border-color); padding-top: 15px; display: flex; justify-content: space-between; }
+        /* Articles Grid */
+        .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; }
+        
+        /* Classic Article Card */
+        .card { display: flex; flex-direction: column; cursor: pointer; transition: opacity 0.3s; }
+        .card:hover { opacity: 0.8; }
+        .card-img { width: 100%; height: 220px; object-fit: cover; filter: grayscale(20%); margin-bottom: 15px; border: 1px solid var(--border); }
+        .card-category { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
+        .card-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 600; line-height: 1.3; margin-bottom: 10px; color: var(--text-dark); }
+        .card-summary { font-size: 0.95rem; color: var(--text-light); margin-bottom: 15px; flex: 1; }
+        .card-date { font-size: 0.8rem; color: #888; font-style: italic; border-top: 1px solid var(--border); padding-top: 10px; }
 
         /* Full Article View */
-        #article-view { display: none; background: var(--bg-card); padding: 50px; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 6px rgba(0,0,0,0.02); max-width: 900px; margin: 0 auto; }
-        .back-btn { display: inline-block; margin-bottom: 30px; color: var(--brand-color); font-weight: 600; text-decoration: none; cursor: pointer; border: 1px solid var(--brand-color); padding: 6px 15px; border-radius: 4px; background: transparent; }
-        .back-btn:hover { background: var(--brand-light); }
-        .article-img { width: 100%; max-height: 450px; object-fit: cover; border-radius: 8px; margin-bottom: 30px; }
-        .article-title-main { font-family: 'Merriweather', serif; font-size: 2.5rem; font-weight: 900; color: var(--text-main); line-height: 1.3; margin-bottom: 15px; }
-        .article-meta-info { color: var(--text-muted); font-size: 0.95rem; padding-bottom: 20px; margin-bottom: 30px; border-bottom: 1px solid var(--border-color); font-weight: 500; }
-        .article-full-content { font-family: 'Merriweather', serif; font-size: 1.15rem; line-height: 1.9; color: #374151; white-space: pre-line; }
+        #article-view { display: none; max-width: 800px; margin: 0 auto; background: #fff; padding: 60px; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+        .back-btn { background: none; border: 1px solid var(--border); padding: 8px 20px; font-family: 'Inter', sans-serif; text-transform: uppercase; font-size: 0.8rem; cursor: pointer; margin-bottom: 40px; transition: 0.2s; }
+        .back-btn:hover { background: var(--text-dark); color: #fff; }
+        
+        .article-title-main { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; line-height: 1.2; margin-bottom: 20px; }
+        .article-meta { font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+        .article-img-main { width: 100%; max-height: 500px; object-fit: cover; margin-bottom: 40px; filter: grayscale(10%); border: 1px solid var(--border); }
+        .article-body { font-family: 'Playfair Display', serif; font-size: 1.2rem; line-height: 1.9; color: #222; white-space: pre-line; }
 
-        /* Secret Admin Panel */
-        #admin-panel { display: none; background: #ffffff; padding: 35px; border-radius: 8px; border: 2px solid #064e3b; margin-bottom: 40px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.95rem; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 4px; font-family: 'Inter', sans-serif; }
-        .btn-save { background: var(--brand-color); color: white; border: none; padding: 12px 25px; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 1rem; }
-        .btn-download { background: #111827; color: white; border: none; padding: 12px 25px; border-radius: 4px; font-weight: 600; cursor: pointer; float: right; }
-        .manage-item { display: flex; justify-content: space-between; padding: 12px; background: #f3f4f6; margin-bottom: 8px; border-radius: 4px; border: 1px solid #e5e7eb; }
-
-        footer { background: #111827; color: #9ca3af; text-align: center; padding: 40px 20px; margin-top: 60px; font-size: 0.95rem; }
-        footer span { color: white; font-weight: 600; }
+        footer { border-top: 2px solid var(--text-dark); text-align: center; padding: 40px 20px; margin-top: 80px; font-family: 'Playfair Display', serif; font-size: 1.1rem; }
     </style>
 </head>
 <body>
 
-    <!-- TRADINGVIEW LIVE TICKER -->
-    <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-        {
-          "symbols": [
-            { "proName": "BSE:SENSEX", "title": "SENSEX" },
-            { "proName": "NSE:NIFTY", "title": "NIFTY 50" },
-            { "proName": "NSE:BANKNIFTY", "title": "BANK NIFTY" },
-            { "proName": "BSE:RELIANCE", "title": "Reliance" },
-            { "proName": "BSE:HDFCBANK", "title": "HDFC Bank" }
-          ],
-          "showSymbolLogo": true,
-          "isTransparent": false,
-          "displayMode": "adaptive",
-          "colorTheme": "light",
-          "locale": "in"
-        }
-        </script>
+    <!-- REAL-TIME MARKET TICKER -->
+    <div class="top-bar">
+        <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+            {
+              "symbols": [
+                { "proName": "BSE:SENSEX", "title": "SENSEX" },
+                { "proName": "NSE:NIFTY", "title": "NIFTY 50" },
+                { "proName": "NSE:BANKNIFTY", "title": "BANK NIFTY" },
+                { "proName": "BSE:RELIANCE", "title": "RELIANCE" }
+              ],
+              "showSymbolLogo": true,
+              "isTransparent": true,
+              "displayMode": "adaptive",
+              "colorTheme": "light",
+              "locale": "in"
+            }
+            </script>
+        </div>
     </div>
 
-    <!-- HEADER (Classic Style with SECRET CLICK) -->
     <header>
-        <!-- Is par 3 baar jaldi click karne se admin panel khulega -->
-        <div class="logo-text" onclick="secretAdminAccess()">The Finance Feed</div>
-        <div class="tagline">Premium Equity Research & Market Insights</div>
+        <div class="logo">The Finance Feed</div>
+        <div class="tagline">Perspective. Substance. Tomorrow.</div>
     </header>
 
-    <!-- NAVIGATION -->
-    <div class="nav-container">
-        <nav>
-            <div class="nav-links">
-                <button class="nav-btn active" onclick="filterArticles('All', this)">All News</button>
-                <button class="nav-btn" onclick="filterArticles('Market News', this)">Market News</button>
-                <button class="nav-btn" onclick="filterArticles('Equity Research', this)">Equity Research</button>
-                <button class="nav-btn" onclick="filterArticles('Economy', this)">Economy</button>
-            </div>
-            <div class="right-nav">
-                <input type="text" id="searchInput" class="search-box" placeholder="Search news..." onkeyup="searchArticles()">
-                <!-- DEKH BHAI YAHAN SE BUTTON PURI TARAH DELETE KAR DIYA HAI -->
-            </div>
-        </nav>
-    </div>
+    <nav>
+        <button class="nav-btn active" onclick="filterArticles('All', this)">All News</button>
+        <button class="nav-btn" onclick="filterArticles('Market News', this)">Markets</button>
+        <button class="nav-btn" onclick="filterArticles('Equity Research', this)">Research</button>
+        <button class="nav-btn" onclick="filterArticles('Economy', this)">Economy</button>
+    </nav>
 
     <div class="container">
-        
-        <!-- SECRET ADMIN PANEL -->
-        <div id="admin-panel">
-            <h2 style="margin-bottom: 20px; color: #064e3b; border-bottom: 2px solid #064e3b; padding-bottom: 10px;">
-                ⚙️ Secret Post Manager
-                <button class="btn-download" onclick="downloadUpdatedSite()">💾 Save & Download File</button>
-            </h2>
-
-            <input type="hidden" id="editId" value="">
-            
-            <div class="form-group">
-                <label>Category</label>
-                <select id="postCategory">
-                    <option value="Market News">Market News</option>
-                    <option value="Equity Research">Equity Research</option>
-                    <option value="Economy">Economy</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Article Title</label>
-                <input type="text" id="postTitle" placeholder="Ex: Nifty Hits All Time High...">
-            </div>
-            <div class="form-group">
-                <label>Image URL (Photo ka Link)</label>
-                <input type="text" id="postImage" placeholder="Google se photo ka link copy karke yahan paste karo (https://...)">
-            </div>
-            <div class="form-group">
-                <label>Short Summary (Card ke liye)</label>
-                <input type="text" id="postSummary" placeholder="2 line ki summary...">
-            </div>
-            <div class="form-group">
-                <label>Full Article Content</label>
-                <textarea id="postContent" rows="8" placeholder="Pura article yahan likho..."></textarea>
-            </div>
-            <button class="btn-save" onclick="savePost()" id="saveBtn">➕ Publish Post</button>
-
-            <div style="margin-top: 40px;">
-                <h3>Manage Old Posts:</h3>
-                <div id="admin-posts-list" style="margin-top: 15px;"></div>
-            </div>
-        </div>
-
-        <!-- HOME GRID -->
+        <!-- Grid View -->
         <div id="home-view" class="articles-grid"></div>
 
-        <!-- FULL ARTICLE VIEW -->
+        <!-- Single Article View -->
         <div id="article-view">
-            <button class="back-btn" onclick="closeArticle()">← Back to Home</button>
-            
-            <img id="view-img" class="article-img" src="" alt="Article Image" style="display:none;">
-            
-            <div id="view-tag" class="category-tag" style="margin-bottom: 15px; font-size: 0.9rem;">Category</div>
+            <button class="back-btn" onclick="closeArticle()">← Back</button>
+            <div id="view-tag" class="card-category" style="margin-bottom:15px;">Category</div>
             <h1 id="view-title" class="article-title-main">Title</h1>
-            <div id="view-meta" class="article-meta-info">Date & Author</div>
-            
-            <div id="view-content" class="article-full-content"></div>
+            <div id="view-meta" class="article-meta">Date</div>
+            <img id="view-img" class="article-img-main" src="" alt="Article Image" style="display:none;">
+            <div id="view-content" class="article-body"></div>
         </div>
-
     </div>
 
     <footer>
-        <p>© 2026 <span>The Finance Feed</span>. Unbiased Market Research.</p>
+        <p>Good investing begins with better questions.</p>
+        <p style="font-size:0.8rem; font-family:'Inter', sans-serif; margin-top:10px; color:#888;">© 2026 THE FINANCE FEED</p>
     </footer>
 
     <script id="main-script">
-        // ==========================================
-        // JAADU CODE: 3 Baar Click = Admin Panel Khulega
-        // ==========================================
-        let clickCount = 0;
-        let clickTimer;
-        
-        function secretAdminAccess() {
-            clickCount++;
-            clearTimeout(clickTimer);
-            clickTimer = setTimeout(() => { clickCount = 0; }, 800); // 0.8 seconds timer
-            
-            if(clickCount === 3) {
-                const panel = document.getElementById('admin-panel');
-                panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
-                clickCount = 0;
-            }
-        }
-
+        // ARTICLES DATABASE
         let articles = /*ARTICLES_START*/[
             {
                 id: 1,
@@ -211,7 +124,6 @@
                 title: "How to Analyze Corporate Earnings & Operating Margins",
                 imageUrl: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1000&auto=format&fit=crop",
                 date: "October 22, 2026",
-                author: "The Finance Feed Desk",
                 summary: "Understanding management commentary and EBITDA margins is key before investing in any manufacturing company.",
                 content: "When studying publicly traded companies, looking only at the headline net profit is never enough. True equity research happens when you examine the quality of earnings and management execution.\n\n1. Operating Margins & Realization per Unit:\nAlways track whether EBITDA margins are expanding due to higher product realization or raw material tailwinds.\n\n2. Cash Conversion Cycle (CCC):\nCheck inventory days, debtor days, and working capital efficiency across quarters."
             },
@@ -221,7 +133,6 @@
                 title: "Q2 Corporate Earnings Season: Sectoral Trends to Watch",
                 imageUrl: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=1000&auto=format&fit=crop",
                 date: "October 21, 2026",
-                author: "The Finance Feed Desk",
                 summary: "Auto, capital goods, and specialized manufacturing sectors remain in focus as companies report volume growth.",
                 content: "As quarterly results roll in, market participants are closely tracking volume growth across domestic industrial and consumer segments.\n\n• Auto & Engineering: Strong two-wheeler and commercial vehicle demand continues to support ancillary manufacturers.\n• IT & Digital Services: Deal wins remain steady while management teams focus on operational efficiency."
             }
@@ -229,133 +140,26 @@
 
         const homeView = document.getElementById('home-view');
         const articleView = document.getElementById('article-view');
-        const adminPanel = document.getElementById('admin-panel');
         let currentCategory = 'All';
 
         function renderArticles(list) {
             homeView.innerHTML = '';
-            if (list.length === 0) {
-                homeView.innerHTML = '<p style="grid-column: 1/-1; text-align:center; padding:40px; color:#6b7280; font-family: Merriweather, serif; font-size:1.2rem;">No articles found in this category.</p>';
-                return;
-            }
             list.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.onclick = () => openArticle(item.id);
                 
-                let imgHtml = item.imageUrl ? `<img src="${item.imageUrl}" class="card-img" alt="News Image">` : `<div class="card-img" style="background:#064e3b;"></div>`;
+                let imgHtml = item.imageUrl ? `<img src="${item.imageUrl}" class="card-img" alt="News Image">` : `<div class="card-img" style="background:#e5e5e5;"></div>`;
 
                 card.innerHTML = `
                     ${imgHtml}
-                    <div class="card-content">
-                        <div class="category-tag">${item.category}</div>
-                        <h2 class="card-title">${item.title}</h2>
-                        <p class="card-summary">${item.summary}</p>
-                        <div class="card-footer">
-                            <span>${item.date}</span>
-                            <span style="color: #064e3b; font-weight:700;">Read More ➔</span>
-                        </div>
-                    </div>
+                    <div class="card-category">${item.category}</div>
+                    <h2 class="card-title">${item.title}</h2>
+                    <p class="card-summary">${item.summary}</p>
+                    <div class="card-date">${item.date}</div>
                 `;
                 homeView.appendChild(card);
             });
-            renderAdminList();
-        }
-
-        function renderAdminList() {
-            const listDiv = document.getElementById('admin-posts-list');
-            if(!listDiv) return;
-            listDiv.innerHTML = '';
-            articles.forEach(item => {
-                const row = document.createElement('div');
-                row.className = 'manage-item';
-                row.innerHTML = `
-                    <span style="font-weight:500;">[${item.category}] ${item.title}</span>
-                    <div>
-                        <button onclick="editPost(${item.id})" style="background:#3b82f6; color:white; border:none; padding:5px 12px; border-radius:3px; cursor:pointer; margin-right:5px;">Edit</button>
-                        <button onclick="deletePost(${item.id})" style="background:#ef4444; color:white; border:none; padding:5px 12px; border-radius:3px; cursor:pointer;">Delete</button>
-                    </div>
-                `;
-                listDiv.appendChild(row);
-            });
-        }
-
-        function savePost() {
-            const editId = document.getElementById('editId').value;
-            const category = document.getElementById('postCategory').value;
-            const title = document.getElementById('postTitle').value.trim();
-            const imageUrl = document.getElementById('postImage').value.trim();
-            const summary = document.getElementById('postSummary').value.trim();
-            const content = document.getElementById('postContent').value.trim();
-
-            if (!title || !summary || !content) {
-                alert("Please fill Title, Summary and Content!");
-                return;
-            }
-
-            const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-
-            if (editId) {
-                const idx = articles.findIndex(a => a.id == editId);
-                if (idx > -1) {
-                    articles[idx] = { ...articles[idx], category, title, imageUrl, summary, content };
-                }
-                document.getElementById('editId').value = '';
-                document.getElementById('saveBtn').innerText = '➕ Publish Post';
-            } else {
-                const newArticle = {
-                    id: Date.now(),
-                    category,
-                    title,
-                    imageUrl,
-                    date: today,
-                    author: "The Finance Feed Desk",
-                    summary,
-                    content
-                };
-                articles.unshift(newArticle);
-            }
-
-            document.getElementById('postTitle').value = '';
-            document.getElementById('postImage').value = '';
-            document.getElementById('postSummary').value = '';
-            document.getElementById('postContent').value = '';
-            
-            renderArticles(articles);
-            alert("Success! Ab upar 'Save & Download File' button dabao.");
-        }
-
-        function editPost(id) {
-            const item = articles.find(a => a.id === id);
-            if (!item) return;
-            document.getElementById('editId').value = item.id;
-            document.getElementById('postCategory').value = item.category;
-            document.getElementById('postTitle').value = item.title;
-            document.getElementById('postImage').value = item.imageUrl || "";
-            document.getElementById('postSummary').value = item.summary;
-            document.getElementById('postContent').value = item.content;
-            document.getElementById('saveBtn').innerText = '✔️ Update Post';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function deletePost(id) {
-            if(confirm("Are you sure you want to delete this post?")) {
-                articles = articles.filter(a => a.id !== id);
-                renderArticles(articles);
-            }
-        }
-
-        function downloadUpdatedSite() {
-            adminPanel.style.display = 'none';
-            let fullHtml = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-            const updatedArticlesJson = JSON.stringify(articles, null, 4);
-            fullHtml = fullHtml.replace(/\/\*ARTICLES_START\*\/[\s\S]*?\/\*ARTICLES_END\*\//, "/*ARTICLES_START*/" + updatedArticlesJson + "/*ARTICLES_END*/");
-
-            const blob = new Blob([fullHtml], { type: 'text/html' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'index.html';
-            a.click();
         }
 
         function openArticle(id) {
@@ -364,19 +168,14 @@
             
             document.getElementById('view-tag').innerText = item.category;
             document.getElementById('view-title').innerText = item.title;
-            document.getElementById('view-meta').innerText = `Published on ${item.date} • By ${item.author}`;
+            document.getElementById('view-meta').innerText = `Published on ${item.date}`;
             document.getElementById('view-content').innerText = item.content;
 
             const imgEl = document.getElementById('view-img');
-            if(item.imageUrl) {
-                imgEl.src = item.imageUrl;
-                imgEl.style.display = 'block';
-            } else {
-                imgEl.style.display = 'none';
-            }
+            if(item.imageUrl) { imgEl.src = item.imageUrl; imgEl.style.display = 'block'; } 
+            else { imgEl.style.display = 'none'; }
 
             homeView.style.display = 'none';
-            adminPanel.style.display = 'none';
             articleView.style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -396,16 +195,7 @@
             renderArticles(filtered);
         }
 
-        function searchArticles() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            closeArticle();
-            const filtered = articles.filter(a =>
-                (currentCategory === 'All' || a.category === currentCategory) &&
-                (a.title.toLowerCase().includes(query) || a.summary.toLowerCase().includes(query))
-            );
-            renderArticles(filtered);
-        }
-
+        // Initialize
         renderArticles(articles);
     </script>
 </body>
