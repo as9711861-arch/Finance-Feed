@@ -1,506 +1,436 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Finance Feed | Market News, Equity Research &amp; Insights</title>
+    <title>The Finance Feed | Premium Market Insights</title>
+    <!-- Google Fonts for Classic Newspaper Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #0f172a;
-            --accent: #d97706;
-            --accent-light: #fef3c7;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #1e293b;
-            --muted: #64748b;
-            --border: #e2e8f0;
+            --brand-color: #064e3b; /* Deep Classic Green (Mint/Finology style) */
+            --brand-light: #ecfdf5;
+            --text-main: #111827;
+            --text-muted: #4b5563;
+            --bg-body: #f3f4f6;
+            --bg-card: #ffffff;
+            --border-color: #e5e7eb;
         }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
+
         body {
-            background-color: var(--bg);
-            color: var(--text);
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif; /* Clean font for UI */
             line-height: 1.6;
         }
+
+        /* Top Header & Logo */
         header {
-            background: var(--primary);
-            color: white;
-            padding: 35px 20px;
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            padding: 25px 20px;
             text-align: center;
-            border-bottom: 4px solid var(--accent);
         }
-        .brand-box {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 8px;
-        }
-        .brand-logo {
-            background: var(--accent);
-            color: white;
+        .logo-text {
+            font-family: 'Merriweather', serif; /* Classic Newspaper Font */
+            font-size: 2.8rem;
             font-weight: 900;
-            font-size: 1.8rem;
-            width: 48px;
-            height: 48px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: var(--brand-color);
+            letter-spacing: -0.5px;
+            margin-bottom: 5px;
         }
-        header h1 {
-            font-size: 2.4rem;
-            letter-spacing: 0.5px;
-            font-weight: 800;
+        .tagline {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
         }
-        header p {
-            color: #cbd5e1;
-            max-width: 650px;
-            margin: 0 auto;
-            font-size: 1rem;
-        }
+
+        /* Navigation Bar */
         .nav-container {
-            background: white;
-            border-bottom: 1px solid var(--border);
+            background: var(--brand-color);
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
         nav {
-            max-width: 1150px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
+            padding: 0 20px;
+            height: 60px;
         }
         .nav-links {
             display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+            gap: 5px;
+            height: 100%;
         }
         .nav-btn {
-            background: none;
-            border: 1px solid transparent;
-            padding: 7px 15px;
-            border-radius: 20px;
+            background: transparent;
+            border: none;
+            color: #d1fae5;
+            font-family: 'Inter', sans-serif;
             font-weight: 600;
-            color: var(--text);
+            font-size: 0.95rem;
+            padding: 0 20px;
             cursor: pointer;
-            transition: 0.2s;
-            font-size: 0.92rem;
+            height: 100%;
+            transition: all 0.2s;
         }
         .nav-btn:hover, .nav-btn.active {
-            background: var(--accent-light);
-            color: var(--accent);
-            border-color: var(--accent);
+            background: rgba(255,255,255,0.1);
+            color: #ffffff;
+            border-bottom: 3px solid #ffffff;
         }
-        .right-controls {
+        .right-nav {
             display: flex;
-            gap: 10px;
             align-items: center;
+            gap: 15px;
         }
-        .search-box input {
-            padding: 8px 15px;
-            border: 1px solid var(--border);
-            border-radius: 20px;
+        .search-box {
+            padding: 6px 15px;
+            border-radius: 4px;
+            border: none;
             outline: none;
-            width: 210px;
             font-size: 0.9rem;
+            width: 220px;
         }
-        .admin-toggle-btn {
-            background: var(--primary);
+
+        /* ADMIN BUTTON - STRICTLY HIDDEN BY DEFAULT */
+        #adminBtn {
+            background: #ef4444;
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 6px 15px;
+            border-radius: 4px;
             font-weight: 600;
             cursor: pointer;
-            font-size: 0.88rem;
-            display: none; /* By default hidden, shown via JS on laptop */
+            display: none !important; /* Will ONLY show via JS if file:// */
         }
-        .admin-toggle-btn:hover {
-            background: var(--accent);
-        }
+        #adminBtn:hover { background: #dc2626; }
+
+        /* Main Content Container */
         .container {
-            max-width: 1150px;
-            margin: 35px auto;
+            max-width: 1200px;
+            margin: 40px auto;
             padding: 0 20px;
             min-height: 60vh;
         }
+
+        /* Classic Grid Layout */
         .articles-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
         }
+
+        /* Premium Article Card */
         .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            border: 1px solid var(--border);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04);
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
             display: flex;
             flex-direction: column;
-            cursor: pointer;
         }
         .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 20px -5px rgba(0,0,0,0.08);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.06);
         }
-        .card-banner {
-            height: 8px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
         }
-        .card-body {
+        .card-content {
             padding: 24px;
             flex: 1;
             display: flex;
             flex-direction: column;
         }
-        .tag {
-            align-self: flex-start;
-            background: var(--accent-light);
-            color: var(--accent);
-            padding: 4px 12px;
-            border-radius: 15px;
+        .category-tag {
+            color: var(--brand-color);
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
-            margin-bottom: 12px;
-        }
-        .card h2 {
-            font-size: 1.3rem;
+            letter-spacing: 0.5px;
             margin-bottom: 10px;
-            color: var(--primary);
-            line-height: 1.35;
         }
-        .card p {
-            color: var(--muted);
+        .card-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .card-summary {
+            color: var(--text-muted);
             font-size: 0.95rem;
             margin-bottom: 20px;
             flex: 1;
         }
         .card-footer {
+            font-size: 0.85rem;
+            color: #6b7280;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            color: var(--muted);
-            border-top: 1px solid var(--border);
-            padding-top: 14px;
         }
-        .read-btn {
-            color: var(--accent);
-            font-weight: 700;
-            text-decoration: none;
-        }
+
+        /* Full Article View */
         #article-view {
             display: none;
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-            max-width: 850px;
+            background: var(--bg-card);
+            padding: 50px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            max-width: 900px;
             margin: 0 auto;
         }
         .back-btn {
             display: inline-block;
-            margin-bottom: 25px;
-            background: var(--primary);
-            color: white;
-            padding: 9px 18px;
-            border-radius: 8px;
-            text-decoration: none;
+            margin-bottom: 30px;
+            color: var(--brand-color);
             font-weight: 600;
-            font-size: 0.9rem;
+            text-decoration: none;
             cursor: pointer;
-            border: none;
+            border: 1px solid var(--brand-color);
+            padding: 6px 15px;
+            border-radius: 4px;
+            background: transparent;
         }
-        .article-title {
-            font-size: 2.1rem;
-            color: var(--primary);
-            margin: 12px 0;
-            line-height: 1.25;
+        .back-btn:hover { background: var(--brand-light); }
+        
+        .article-img {
+            width: 100%;
+            max-height: 450px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 30px;
         }
-        .article-meta {
-            color: var(--muted);
-            font-size: 0.9rem;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border);
+        .article-title-main {
+            font-family: 'Merriweather', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--text-main);
+            line-height: 1.3;
+            margin-bottom: 15px;
         }
-        .article-content {
-            font-size: 1.08rem;
-            line-height: 1.8;
-            color: #334155;
+        .article-meta-info {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 500;
+        }
+        .article-full-content {
+            font-family: 'Merriweather', serif; /* Classic reading font */
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #374151;
             white-space: pre-line;
         }
 
-        /* Admin Panel Styles */
+        /* Admin Panel */
         #admin-panel {
             display: none;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            border: 2px solid var(--accent);
-            margin-bottom: 35px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 8px;
+            border: 2px solid #ef4444;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
-        .admin-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border);
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-        }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.95rem; }
         .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.95rem;
+            width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 4px; font-family: 'Inter', sans-serif;
         }
-        .btn-green {
-            background: #16a34a;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-        .btn-download {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 12px 22px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 0.95rem;
-        }
-        .manage-list {
-            margin-top: 25px;
-            border-top: 1px solid var(--border);
-            padding-top: 20px;
-        }
-        .manage-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 14px;
-            background: #f1f5f9;
-            border-radius: 8px;
-            margin-bottom: 8px;
-        }
-        .btn-delete {
-            background: #ef4444;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.8rem;
-        }
-        .btn-edit {
-            background: #2563eb;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.8rem;
-            margin-right: 6px;
-        }
+        .btn-save { background: var(--brand-color); color: white; border: none; padding: 12px 25px; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 1rem; }
+        .btn-download { background: #111827; color: white; border: none; padding: 12px 25px; border-radius: 4px; font-weight: 600; cursor: pointer; float: right; }
+        .manage-item { display: flex; justify-content: space-between; padding: 12px; background: #f3f4f6; margin-bottom: 8px; border-radius: 4px; border: 1px solid #e5e7eb; }
 
         footer {
-            background: var(--primary);
-            color: #94a3b8;
+            background: #111827;
+            color: #9ca3af;
             text-align: center;
-            padding: 30px 20px;
+            padding: 40px 20px;
             margin-top: 60px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
-        footer strong { color: white; }
+        footer span { color: white; font-weight: 600; }
     </style>
 </head>
 <body>
 
-    <!-- TRADINGVIEW REAL-TIME MARKET TICKER WIDGET -->
-    <div class="tradingview-widget-container" style="width: 100%; height: 60px;">
-        <iframe scrolling="no" allowtransparency="true" frameborder="0" src="https://www.tradingview-widget.com/embed-widget/ticker-tape/?locale=in#%7B%22symbols%22%3A%5B%7B%22proName%22%3A%22BSE%3ASENSEX%22%2C%22title%22%3A%22SENSEX%22%7D%2C%7B%22proName%22%3A%22NSE%3ANIFTY%22%2C%22title%22%3A%22NIFTY%2050%22%7D%2C%7B%22proName%22%3A%22NSE%3ABANKNIFTY%22%2C%22title%22%3A%22BANK%20NIFTY%22%7D%2C%7B%22proName%22%3A%22BSE%3ARELIANCE%22%2C%22title%22%3A%22Reliance%22%7D%2C%7B%22proName%22%3A%22BSE%3ATCS%22%2C%22title%22%3A%22TCS%22%7D%5D%2C%22showSymbolLogo%22%3Atrue%2C%22isTransparent%22%3Afalse%2C%22displayMode%22%3A%22adaptive%22%2C%22colorTheme%22%3A%22dark%22%2C%22width%22%3A%22100%25%22%2C%22height%22%3A58%2C%22utm_source%22%3A%22%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22ticker-tape%22%2C%22page-uri%22%3A%22__NHTTP__%22%7D" title="ticker tape TradingView widget" lang="en" style="user-select: none; box-sizing: border-box; display: block; height: 60px; width: 100%;"></iframe>
-        
-    <style>
-	.tradingview-widget-copyright {
-		font-size: 13px !important;
-		line-height: 32px !important;
-		text-align: center !important;
-		vertical-align: middle !important;
-		/* @mixin sf-pro-display-font; */
-		font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif !important;
-		color: #B2B5BE !important;
-	}
+    <!-- TRADINGVIEW LIVE TICKER -->
+    <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+        {
+          "symbols": [
+            { "proName": "BSE:SENSEX", "title": "SENSEX" },
+            { "proName": "NSE:NIFTY", "title": "NIFTY 50" },
+            { "proName": "NSE:BANKNIFTY", "title": "BANK NIFTY" },
+            { "proName": "BSE:RELIANCE", "title": "Reliance" },
+            { "proName": "BSE:HDFCBANK", "title": "HDFC Bank" }
+          ],
+          "showSymbolLogo": true,
+          "isTransparent": false,
+          "displayMode": "adaptive",
+          "colorTheme": "light",
+          "locale": "in"
+        }
+        </script>
+    </div>
 
-	.tradingview-widget-copyright .blue-text {
-		color: #2962FF !important;
-	}
-
-	.tradingview-widget-copyright a {
-		text-decoration: none !important;
-		color: #B2B5BE !important;
-	}
-
-	.tradingview-widget-copyright a:visited {
-		color: #B2B5BE !important;
-	}
-
-	.tradingview-widget-copyright a:hover .blue-text {
-		color: #1E53E5 !important;
-	}
-
-	.tradingview-widget-copyright a:active .blue-text {
-		color: #1848CC !important;
-	}
-
-	.tradingview-widget-copyright a:visited .blue-text {
-		color: #2962FF !important;
-	}
-	</style></div>
-
+    <!-- HEADER (Classic Style) -->
     <header>
-        <div class="brand-box">
-            <div class="brand-logo">F</div>
-            <h1>The Finance Feed</h1>
-        </div>
-        <p>Hello Readers! Regular finance news, industry updates, corporate earnings analysis, and market insights.</p>
+        <div class="logo-text">The Finance Feed</div>
+        <div class="tagline">Premium Equity Research & Market Insights</div>
     </header>
 
+    <!-- NAVIGATION -->
     <div class="nav-container">
         <nav>
             <div class="nav-links">
-                <button class="nav-btn active" onclick="filterArticles('All', this)">All Posts</button>
+                <button class="nav-btn active" onclick="filterArticles('All', this)">All News</button>
                 <button class="nav-btn" onclick="filterArticles('Market News', this)">Market News</button>
                 <button class="nav-btn" onclick="filterArticles('Equity Research', this)">Equity Research</button>
-                <button class="nav-btn" onclick="filterArticles('Economy &amp; Bonds', this)">Economy &amp; Bonds</button>
+                <button class="nav-btn" onclick="filterArticles('Economy', this)">Economy</button>
             </div>
-            <div class="right-controls">
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Search articles..." onkeyup="searchArticles()">
-                </div>
-                <!-- Yeh button sirf laptop par dikhega -->
-                <button id="adminBtn" class="admin-toggle-btn" onclick="toggleAdmin()" style="display: block;">⚙️ Manage / + Post</button>
+            <div class="right-nav">
+                <input type="text" id="searchInput" class="search-box" placeholder="Search news..." onkeyup="searchArticles()">
+                <!-- STRICTLY HIDDEN BUTTON -->
+                <button id="adminBtn" onclick="toggleAdmin()">⚙️ Edit / + Post</button>
             </div>
         </nav>
     </div>
 
     <div class="container">
-
-        <!-- Admin Panel -->
-        <div id="admin-panel" style="display: none;">
-            <div class="admin-header">
-                <h2>✍️ Post Manager (Add, Edit or Delete Posts)</h2>
-                <button class="btn-download" onclick="downloadUpdatedSite()">💾 Save &amp; Download index.html</button>
-            </div>
+        
+        <!-- ADMIN PANEL -->
+        <div id="admin-panel">
+            <h2 style="margin-bottom: 20px; color: #ef4444; border-bottom: 2px solid #ef4444; padding-bottom: 10px;">
+                ⚙️ Admin Post Manager
+                <button class="btn-download" onclick="downloadUpdatedSite()">💾 Save & Download Nayi File</button>
+            </h2>
 
             <input type="hidden" id="editId" value="">
+            
             <div class="form-group">
                 <label>Category</label>
                 <select id="postCategory">
                     <option value="Market News">Market News</option>
                     <option value="Equity Research">Equity Research</option>
-                    <option value="Economy &amp; Bonds">Economy &amp; Bonds</option>
+                    <option value="Economy">Economy</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>Article Title (Heading)</label>
-                <input type="text" id="postTitle" placeholder="Jaise: Q2 Results Analysis ya RBI Bond Update...">
+                <label>Article Title</label>
+                <input type="text" id="postTitle" placeholder="Ex: Nifty Hits All Time High...">
             </div>
             <div class="form-group">
-                <label>Short Summary (2 lines jo bahar card par dikhegi)</label>
-                <input type="text" id="postSummary" placeholder="Article ke baare mein 1-2 line...">
+                <label>Image URL (Photo ka Link)</label>
+                <input type="text" id="postImage" placeholder="Google se photo ka link copy karke yahan paste karo (https://...)">
             </div>
             <div class="form-group">
-                <label>Full Article Content (Pura Article Yahan Likho)</label>
-                <textarea id="postContent" rows="6" placeholder="Apna pura article yahan aaram se paragraphs mein likho..."></textarea>
+                <label>Short Summary (Card ke liye)</label>
+                <input type="text" id="postSummary" placeholder="2 line ki summary...">
             </div>
-            <button class="btn-green" onclick="savePost()" id="saveBtn">➕ Add Post to Website</button>
+            <div class="form-group">
+                <label>Full Article Content</label>
+                <textarea id="postContent" rows="8" placeholder="Pura article yahan likho..."></textarea>
+            </div>
+            <button class="btn-save" onclick="savePost()" id="saveBtn">➕ Publish Post</button>
 
-            <div class="manage-list">
-                <h3 style="margin-bottom: 12px;">Existing Posts (Edit ya Delete Karo):</h3>
-                <div id="admin-posts-list"><div class="manage-item">
-                    <span><strong>[Equity Research]</strong> 📢 The Finance Feed | Chips &amp; Semiconductors</span>
-                    <div>
-                        <button class="btn-edit" onclick="editPost(1792675422286)">✏️ Edit</button>
-                        <button class="btn-delete" onclick="deletePost(1792675422286)">🗑️ Delete</button>
-                    </div>
-                </div></div>
+            <div style="margin-top: 40px;">
+                <h3>Manage Old Posts:</h3>
+                <div id="admin-posts-list" style="margin-top: 15px;"></div>
             </div>
         </div>
 
-        <!-- Home Grid View -->
-        <div id="home-view" class="articles-grid"><div class="card">
-                    <div class="card-banner"></div>
-                    <div class="card-body">
-                        <span class="tag">Equity Research</span>
-                        <h2>📢 The Finance Feed | Chips &amp; Semiconductors</h2>
-                        <p>For educational and informational purposes only. Not investment advice.</p>
-                        <div class="card-footer">
-                            <span>📅 October 22, 2026</span>
-                            <span class="read-btn">Read Full Story →</span>
-                        </div>
-                    </div>
-                </div></div>
+        <!-- HOME GRID -->
+        <div id="home-view" class="articles-grid"></div>
 
-        <!-- Single Full Article View -->
+        <!-- FULL ARTICLE VIEW -->
         <div id="article-view">
-            <button class="back-btn" onclick="closeArticle()">← Back to All Articles</button>
-            <div><span id="view-tag" class="tag">Category</span></div>
-            <h1 id="view-title" class="article-title">Article Title</h1>
-            <div id="view-meta" class="article-meta">Date &amp; Author</div>
-            <div id="view-content" class="article-content"></div>
+            <button class="back-btn" onclick="closeArticle()">← Back to Home</button>
+            
+            <img id="view-img" class="article-img" src="" alt="Article Image" style="display:none;">
+            
+            <div id="view-tag" class="category-tag" style="margin-bottom: 15px; font-size: 0.9rem;">Category</div>
+            <h1 id="view-title" class="article-title-main">Title</h1>
+            <div id="view-meta" class="article-meta-info">Date & Author</div>
+            
+            <div id="view-content" class="article-full-content"></div>
         </div>
+
     </div>
 
     <footer>
-        <p>© 2026 <strong>The Finance Feed</strong>. Built for Readers &amp; Market Enthusiasts.</p>
+        <p>© 2026 <span>The Finance Feed</span>. Unbiased Market Research.</p>
     </footer>
 
     <script id="main-script">
-        // Agar laptop par khula hai (file://), toh hi Admin button dikhao!
+        // =====================================================================================
+        // SECURITY FIX: Button will ONLY show if address starts with "file:" (Your Laptop)
+        // Agar yeh Vercel ya Netlify par khulega, toh button permanently gayab rahega.
+        // =====================================================================================
         if (window.location.protocol === "file:") {
-            document.getElementById('adminBtn').style.display = "block";
+            document.getElementById('adminBtn').style.setProperty("display", "inline-block", "important");
         }
 
+        // Article Data (Ab isme imageUrl bhi hai)
         let articles = /*ARTICLES_START*/[
-    {
-        "id": 1792675422286,
-        "category": "Equity Research",
-        "title": "📢 The Finance Feed | Chips & Semiconductors",
-        "date": "October 22, 2026",
-        "author": "The Finance Feed Desk",
-        "summary": "For educational and informational purposes only. Not investment advice.",
-        "content": "India is building chip factories — but Indian companies aren't buying from them yet. Here's why that's actually okay.\n\nIndia's semiconductor dream is finally turning into reality. Factories are coming up, machines are running, and chips are being shipped out. But there's a funny twist — the customers for these chips are not in India. They're in Japan, Malaysia, and Europe.\n\nSounds weird, right? If we're making chips in India, shouldn't Indian companies be the ones buying them? Let's unpack this whole story from scratch.\n\n🔍 What's Actually Happening on the Ground?\n\nThree Indian companies are leading the charge right now, and each one has a slightly different story. Let's look at them one by one.\n\n🔹 CG Semi (Part of the CG Power family)\n\nCG Semi just started shipping real, commercially packaged chips from its pilot facility in Sanand, Gujarat. And here's the interesting part — the very first batch of chips didn't go to Mumbai or Bangalore. They went to Kuala Lumpur, Malaysia.\n\nWhy Malaysia? Because CG Semi's joint venture partner is Renesas Electronics, a massive Japanese chip company that also happens to own a 6.8% stake in CG Semi. So Renesas is not just a business partner putting in money — they're also the first big customer taking the finished chips off the production line and selling them to their own global clients through Malaysia.\n\nTo give you a sense of scale: CG Power is pouring ₹76 billion (that's about ₹7,600 crore) over five years into this project. The Sanand facility has two units — G1 and G2. Right now, G1 alone can process about 5 lakh chips per day at peak capacity. And all of this commercial shipping started roughly ten months after the plant was inaugurated in August 2025. That's actually pretty fast by semiconductor industry standards, where timelines are usually measured in years, not months.\n\n🔹 Kaynes Semicon (Part of Kaynes Technology)\n\nKaynes took a slightly different route. In December last year, they signed a deal with Mitsui & Co, one of Japan's biggest trading and investment companies. The deal got regulatory clearance by March.\n\nNow, what does Mitsui actually do here? They're not buying chips for themselves. Mitsui's job is to use its massive global sales network to find international customers for the chips that Kaynes packages in India. Think of Mitsui as a super-connected middleman who knows exactly which companies in Japan, Europe, and Southeast Asia need chip packaging services — and can connect them to Kaynes.\n\nFor a young Indian chip company that just started out, having a global giant like Mitsui vouch for you and bring in customers is a huge deal. It gives Kaynes credibility and revenue while they're still building their reputation.\n\n🔹 Tata Electronics\n\nTata, as expected, is playing the biggest game. In September, Tata Electronics signed a partnership with Nexperia, a global leader in automotive semiconductors — the kind of chips that go into your car's engine control, braking systems, and infotainment screens.\n\nNexperia is going to be a key customer for Tata's OSAT plant in Jagiroad, Assam, which is expected to start commercial production before December this year. So while CG Semi is shipping from Gujarat and Kaynes is setting up in the south, Tata is building in the Northeast — spreading the semiconductor footprint across the country.\n\n📖 Hold On — What Exactly Is OSAT?\n\nOkay, I know \"OSAT\" sounds like some complicated tech jargon, but it's actually really simple once you understand how a chip is made.\n\nThink of making a semiconductor chip like making a pizza:\n\nStep 1 — The Kitchen (Fab): This is where the actual chip is \"cooked\" — tiny circuits are printed onto silicon wafers using incredibly advanced machines. These fabrication plants (called \"fabs\") cost billions of dollars to build. Only a handful of companies in the world can do this — TSMC in Taiwan, Samsung in South Korea, Intel in the US. India does NOT have a fab yet.\n\nStep 2 — The Packaging Counter (OSAT): Once the chip is made in the fab, it's just a tiny, fragile piece of silicon. You can't just plug it into a phone or a car like that. It needs to be carefully packaged into a protective casing, connected to tiny metal pins, and tested to make sure it actually works. This packaging and testing step is called OSAT — Outsourced Semiconductor Assembly and Test.\n\nStep 3 — The Delivery (End Use): The finished, packaged chip is then sold to companies like Apple, Samsung, Tata Motors, or Bosch, who put it inside their phones, cars, and appliances.\n\nSo where does India fit in right now? We're at Step 2 — OSAT. We're not yet making the raw chips (that's the fab step), but we're learning to package and test them. And honestly, that's exactly how every major chip country started. South Korea, Taiwan, and Malaysia all began with assembly and testing before moving up to full chip manufacturing decades later.\n\n📊 The Big Question: Why Aren't Indian Companies Buying These Chips?\n\nThis is the most interesting part of the whole story, and the answer is surprisingly simple.\n\nImagine you run a car company in India — say, Maruti Suzuki or Tata Motors. You need millions of chips every year for your cars. Over the past 10-15 years, you've signed long-term contracts with established global chip suppliers like NXP, Infineon, Texas Instruments, and STMicroelectronics. These contracts guarantee you a steady supply of chips at fixed prices for years.\n\nNow, a new Indian OSAT facility opens up and says, \"Hey, buy from us!\" What do you do? You can't just cancel your existing contracts overnight. Those are legally binding agreements. And even if you could, would you trust a brand-new facility that started operations six months ago with the chips that control your car's braking system? Probably not yet.\n\nAs a senior executive close to Tata's semiconductor operations put it very honestly: \"It will take some time for India to build scale as a semiconductor client base.\"\n\nAnd it's not just the private sector. Government procurement — which was supposed to be the first big buyer of Indian-made chips (for defence, railways, space, etc.) — is still at the pilot stage. The volumes are too small to make a real difference to a factory that can produce 5 lakh chips a day.\n\nBut here's the thing — this is completely normal. Every single semiconductor hub in the world went through this exact phase. South Korea's Samsung started by packaging chips for American and Japanese companies before Korean electronics companies grew big enough to buy from them. Taiwan's TSMC spent its early years serving foreign clients. Malaysia's entire chip industry was built on exports. Domestic demand always comes later, once the local electronics manufacturing ecosystem matures.\n\n💡 What Is the Government's Plan Then?\n\nMeitY Secretary S. Krishnan addressed this question very directly in August, and his answer was refreshingly honest.\n\nHe basically said: India's goal is not to build chips only for India. The government wants Indian chip companies to be globally competitive from day one. If we only serve domestic demand, the market is too small to justify the massive investments these factories need. Indian companies need to be part of global supply chains — selling to Japan, Europe, the US, and Southeast Asia — to reach the scale that makes the business profitable.\n\nIn other words, the government is fine with Indian chips going to Malaysia and Japan right now. That's not a failure — that's the plan.\n\nAnd the money backing this plan is serious:\n\nISM 1.0 (India Semiconductor Mission Phase 1): Approved by the Union Cabinet back in December 2021, this came with an incentive pool of ₹76,000 crore (roughly $9-10 billion). The government offers to cover up to 50% of the project cost for companies setting up chip facilities in India. That's an incredibly generous subsidy by global standards. Under this phase, 12 semiconductor proposals have been approved so far.\n\nISM 2.0 (Phase 2): This is the next big step — a proposed additional allocation of approximately $20 billion (₹1.76 lakh crore), which would roughly double the money available from Phase 1. This is still under consideration and hasn't received final Cabinet approval yet, but the intent is clear: the government is going all-in on semiconductors.\n\n🔭 The Bigger Picture — Where Does India Really Stand?\n\nLet's be real for a moment and zoom out.\n\nIndia's semiconductor story is genuine and exciting — but it's still in the early chapters. The facilities being built today are doing assembly and testing (OSAT), which is the lower end of the semiconductor value chain. It's important work, it creates jobs, and it's the right first step — but it's not where the big money and strategic power lies.\n\nThe real crown jewels of the chip industry are:\n\nChip Design — Where engineers design the architecture of processors (companies like Qualcomm, Nvidia, and AMD do this). India actually has a strong presence here already, with thousands of chip designers working in Bangalore and Hyderabad for global companies.\n\nChip Fabrication (Fabs) — Where the actual silicon wafers are manufactured. This is the hardest, most expensive part. A single advanced fab can cost $10-20 billion to build. India doesn't have one yet, though Tata is working on setting up a fab in Dholera, Gujarat, which is expected to be operational in the coming years.\n\nSo the journey looks like this: Assembly & Testing (now) → Chip Design (already happening) → Full Fabrication (a few years away).\n\nThe global clients being signed today — Renesas, Nexperia, Mitsui — are not a sign that India has \"failed\" to create domestic demand. They're a sign that Indian facilities are smart enough to go where the money is while the local market matures. These international partnerships bring in revenue, build expertise, and establish credibility — all of which will be crucial when Indian companies eventually start competing for the big domestic orders.\n\n⚠️ One Thing to Keep an Eye On\n\nAnnouncements and approvals are great, but the semiconductor industry is brutally hard. Building a chip facility is one thing. Running it at full capacity, maintaining the ultra-clean environments these chips need, training thousands of specialized technicians, and consistently delivering defect-free products at scale — that's the real challenge.\n\nThe pace at which companies like CG Semi, Kaynes, and Tata Electronics convert their shiny new factories into steady, high-volume production lines will be the true test of whether India's semiconductor ambitions are real or just headlines.\n\nThe foundation is being laid. The money is flowing. The global customers are showing up. Now it's time to execute.\n\n💡 The Bottom Line\n\nIndia is building its chip industry the same way every successful chip nation did — by starting small, serving global customers first, and gradually moving up the value chain. The fact that Indian-made chips are already shipping to Malaysia and Japan is not a weakness. It's proof that the world trusts Indian facilities enough to put them in their supply chains.\n\nThe domestic market will catch up. It always does. But for now, India's chip companies are doing exactly what they should be doing: going global, building scale, and earning their stripes on the world stage."
-    }
-]/*ARTICLES_END*/;
+            {
+                id: 1,
+                category: "Equity Research",
+                title: "How to Analyze Corporate Earnings & Operating Margins",
+                imageUrl: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1000&auto=format&fit=crop",
+                date: "October 22, 2026",
+                author: "The Finance Feed Desk",
+                summary: "Understanding management commentary and EBITDA margins is key before investing in any manufacturing company.",
+                content: "When studying publicly traded companies, looking only at the headline net profit is never enough. True equity research happens when you examine the quality of earnings and management execution.\n\n1. Operating Margins & Realization per Unit:\nAlways track whether EBITDA margins are expanding due to higher product realization or raw material tailwinds.\n\n2. Cash Conversion Cycle (CCC):\nCheck inventory days, debtor days, and working capital efficiency across quarters."
+            },
+            {
+                id: 2,
+                category: "Market News",
+                title: "Q2 Corporate Earnings Season: Sectoral Trends to Watch",
+                imageUrl: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=1000&auto=format&fit=crop",
+                date: "October 21, 2026",
+                author: "The Finance Feed Desk",
+                summary: "Auto, capital goods, and specialized manufacturing sectors remain in focus as companies report volume growth.",
+                content: "As quarterly results roll in, market participants are closely tracking volume growth across domestic industrial and consumer segments.\n\n• Auto & Engineering: Strong two-wheeler and commercial vehicle demand continues to support ancillary manufacturers.\n• IT & Digital Services: Deal wins remain steady while management teams focus on operational efficiency."
+            },
+            {
+                id: 3,
+                category: "Economy",
+                title: "Beginner's Guide to Government Securities (G-Secs)",
+                imageUrl: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=1000&auto=format&fit=crop",
+                date: "October 19, 2026",
+                author: "The Finance Feed Desk",
+                summary: "Looking for risk-free fixed income returns? Learn how retail investors can invest in T-Bills directly.",
+                content: "While equities build long-term wealth, fixed-income instruments provide stability and predictable cash flows to a portfolio.\n\nWhat are Treasury Bills (T-Bills)?\nT-Bills are short-term debt instruments issued by the Government of India with tenures of 91 days, 182 days, and 364 days."
+            }
+        ]/*ARTICLES_END*/;
 
         const homeView = document.getElementById('home-view');
         const articleView = document.getElementById('article-view');
@@ -510,27 +440,32 @@
         function renderArticles(list) {
             homeView.innerHTML = '';
             if (list.length === 0) {
-                homeView.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#64748b; padding:40px;">No articles found.</p>';
+                homeView.innerHTML = '<p style="grid-column: 1/-1; text-align:center; padding:40px; color:#6b7280; font-family: Merriweather, serif; font-size:1.2rem;">No articles found in this category.</p>';
                 return;
             }
             list.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.onclick = () => openArticle(item.id);
+                
+                // Check if image exists
+                let imgHtml = item.imageUrl ? `<img src="${item.imageUrl}" class="card-img" alt="News Image">` : `<div class="card-img" style="background:#064e3b;"></div>`;
+
                 card.innerHTML = `
-                    <div class="card-banner"></div>
-                    <div class="card-body">
-                        <span class="tag">${item.category}</span>
-                        <h2>${item.title}</h2>
-                        <p>${item.summary}</p>
+                    ${imgHtml}
+                    <div class="card-content">
+                        <div class="category-tag">${item.category}</div>
+                        <h2 class="card-title">${item.title}</h2>
+                        <p class="card-summary">${item.summary}</p>
                         <div class="card-footer">
-                            <span>📅 ${item.date}</span>
-                            <span class="read-btn">Read Full Story →</span>
+                            <span>${item.date}</span>
+                            <span style="color: #064e3b; font-weight:700;">Read More ➔</span>
                         </div>
                     </div>
                 `;
                 homeView.appendChild(card);
             });
+            
             if (window.location.protocol === "file:") {
                 renderAdminList();
             }
@@ -544,10 +479,10 @@
                 const row = document.createElement('div');
                 row.className = 'manage-item';
                 row.innerHTML = `
-                    <span><strong>[${item.category}]</strong> ${item.title}</span>
+                    <span style="font-weight:500;">[${item.category}] ${item.title}</span>
                     <div>
-                        <button class="btn-edit" onclick="editPost(${item.id})">✏️ Edit</button>
-                        <button class="btn-delete" onclick="deletePost(${item.id})">🗑️ Delete</button>
+                        <button onclick="editPost(${item.id})" style="background:#3b82f6; color:white; border:none; padding:5px 12px; border-radius:3px; cursor:pointer; margin-right:5px;">Edit</button>
+                        <button onclick="deletePost(${item.id})" style="background:#ef4444; color:white; border:none; padding:5px 12px; border-radius:3px; cursor:pointer;">Delete</button>
                     </div>
                 `;
                 listDiv.appendChild(row);
@@ -562,11 +497,12 @@
             const editId = document.getElementById('editId').value;
             const category = document.getElementById('postCategory').value;
             const title = document.getElementById('postTitle').value.trim();
+            const imageUrl = document.getElementById('postImage').value.trim();
             const summary = document.getElementById('postSummary').value.trim();
             const content = document.getElementById('postContent').value.trim();
 
             if (!title || !summary || !content) {
-                alert("Bhai Title, Summary aur Content teeno bharna zaroori hai!");
+                alert("Please fill Title, Summary and Content!");
                 return;
             }
 
@@ -575,15 +511,16 @@
             if (editId) {
                 const idx = articles.findIndex(a => a.id == editId);
                 if (idx > -1) {
-                    articles[idx] = { ...articles[idx], category, title, summary, content };
+                    articles[idx] = { ...articles[idx], category, title, imageUrl, summary, content };
                 }
                 document.getElementById('editId').value = '';
-                document.getElementById('saveBtn').innerText = '➕ Add Post to Website';
+                document.getElementById('saveBtn').innerText = '➕ Publish Post';
             } else {
                 const newArticle = {
                     id: Date.now(),
                     category,
                     title,
+                    imageUrl,
                     date: today,
                     author: "The Finance Feed Desk",
                     summary,
@@ -592,11 +529,14 @@
                 articles.unshift(newArticle);
             }
 
+            // Clear form
             document.getElementById('postTitle').value = '';
+            document.getElementById('postImage').value = '';
             document.getElementById('postSummary').value = '';
             document.getElementById('postContent').value = '';
+            
             renderArticles(articles);
-            alert("Post update ho gaya! Ab upar 'Save & Download index.html' button dabao.");
+            alert("Success! Ab upar 'Save & Download' button dabao.");
         }
 
         function editPost(id) {
@@ -605,6 +545,7 @@
             document.getElementById('editId').value = item.id;
             document.getElementById('postCategory').value = item.category;
             document.getElementById('postTitle').value = item.title;
+            document.getElementById('postImage').value = item.imageUrl || "";
             document.getElementById('postSummary').value = item.summary;
             document.getElementById('postContent').value = item.content;
             document.getElementById('saveBtn').innerText = '✔️ Update Post';
@@ -612,8 +553,10 @@
         }
 
         function deletePost(id) {
-            articles = articles.filter(a => a.id !== id);
-            renderArticles(articles);
+            if(confirm("Are you sure you want to delete this post?")) {
+                articles = articles.filter(a => a.id !== id);
+                renderArticles(articles);
+            }
         }
 
         function downloadUpdatedSite() {
@@ -632,12 +575,22 @@
         function openArticle(id) {
             const item = articles.find(a => a.id === id);
             if (!item) return;
+            
             document.getElementById('view-tag').innerText = item.category;
             document.getElementById('view-title').innerText = item.title;
             document.getElementById('view-meta').innerText = `Published on ${item.date} • By ${item.author}`;
             document.getElementById('view-content').innerText = item.content;
 
+            const imgEl = document.getElementById('view-img');
+            if(item.imageUrl) {
+                imgEl.src = item.imageUrl;
+                imgEl.style.display = 'block';
+            } else {
+                imgEl.style.display = 'none';
+            }
+
             homeView.style.display = 'none';
+            adminPanel.style.display = 'none';
             articleView.style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -645,6 +598,7 @@
         function closeArticle() {
             articleView.style.display = 'none';
             homeView.style.display = 'grid';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function filterArticles(category, btnElement) {
@@ -653,9 +607,7 @@
             btnElement.classList.add('active');
             closeArticle();
 
-            const filtered = category === 'All'
-                ? articles
-                : articles.filter(a => a.category === category);
+            const filtered = category === 'All' ? articles : articles.filter(a => a.category === category);
             renderArticles(filtered);
         }
 
@@ -669,7 +621,8 @@
             renderArticles(filtered);
         }
 
+        // Initialize
         renderArticles(articles);
     </script>
-
-</body></html>
+</body>
+</html>
