@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Finance Feed | Market News, Equity Research & Insights</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #d97706;
+            --accent-light: #fef3c7;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --muted: #64748b;
+            --border: #e2e8f0;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 35px 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--accent);
+        }
+        .brand-box {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        .brand-logo {
+            background: var(--accent);
+            color: white;
+            font-weight: 900;
+            font-size: 1.8rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        header h1 {
+            font-size: 2.4rem;
+            letter-spacing: 0.5px;
+            font-weight: 800;
+        }
+        header p {
+            color: #cbd5e1;
+            max-width: 650px;
+            margin: 0 auto;
+            font-size: 1rem;
+        }
+        .nav-container {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+        nav {
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            background: none;
+            border: 1px solid transparent;
+            padding: 7px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.92rem;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--accent-light);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+        .right-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .search-box input {
+            padding: 8px 15px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            outline: none;
+            width: 210px;
+            font-size: 0.9rem;
+        }
+        .admin-toggle-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.88rem;
+            display: none; /* By default hidden, shown via JS on laptop */
+        }
+        .admin-toggle-btn:hover {
+            background: var(--accent);
+        }
+        .container {
+            max-width: 1150px;
+            margin: 35px auto;
+            padding: 0 20px;
+            min-height: 60vh;
+        }
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+            gap: 25px;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -5px rgba(0,0,0,0.08);
+        }
+        .card-banner {
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+        .card-body {
+            padding: 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .tag {
+            align-self: flex-start;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .card h2 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+            line-height: 1.35;
+        }
+        .card p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            flex: 1;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+            padding-top: 14px;
+        }
+        .read-btn {
+            color: var(--accent);
+            font-weight: 700;
+            text-decoration: none;
+        }
+        #article-view {
+            display: none;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 25px;
+            background: var(--primary);
+            color: white;
+            padding: 9px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+        }
+        .article-title {
+            font-size: 2.1rem;
+            color: var(--primary);
+            margin: 12px 0;
+            line-height: 1.25;
+        }
+        .article-meta {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        .article-content {
+            font-size: 1.08rem;
+            line-height: 1.8;
+            color: #334155;
+            white-space: pre-line;
+        }
+
+        /* Admin Panel Styles */
+        #admin-panel {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid var(--accent);
+            margin-bottom: 35px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+        .btn-green {
+            background: #16a34a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-download {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+        .manage-list {
+            margin-top: 25px;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+        .manage-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        .btn-edit {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-right: 6px;
+        }
+
+        footer {
+            background: var(--primary);
+            color: #94a3b8;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+            font-size: 0.9rem;
+        }
+        footer strong { color: white; }
+    </style>
+</head>
+<body>
+
+    <!-- TRADINGVIEW REAL-TIME MARKET TICKER WIDGET -->
+    <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+        {
+          "symbols": [
+            { "proName": "BSE:SENSEX", "title": "SENSEX" },
+            { "proName": "NSE:NIFTY", "title": "NIFTY 50" },
+            { "proName": "NSE:BANKNIFTY", "title": "BANK NIFTY" },
+            { "proName": "BSE:RELIANCE", "title": "Reliance" },
+            { "proName": "BSE:TCS", "title": "TCS" }
+          ],
+          "showSymbolLogo": true,
+          "isTransparent": false,
+          "displayMode": "adaptive",
+          "colorTheme": "dark",
+          "locale": "in"
+        }
+        </script>
+    </div>
+
+    <header>
+        <div class="brand-box">
+            <div class="brand-logo">F</div>
+            <h1>The Finance Feed</h1>
+        </div>
+        <p>Hello Readers! Regular finance news, industry updates, corporate earnings analysis, and market insights.</p>
+    </header>
+
+    <div class="nav-container">
+        <nav>
+            <div class="nav-links">
+                <button class="nav-btn active" onclick="filterArticles('All', this)">All Posts</button>
+                <button class="nav-btn" onclick="filterArticles('Market News', this)">Market News</button>
+                <button class="nav-btn" onclick="filterArticles('Equity Research', this)">Equity Research</button>
+                <button class="nav-btn" onclick="filterArticles('Economy & Bonds', this)">Economy & Bonds</button>
+            </div>
+            <div class="right-controls">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search articles..." onkeyup="searchArticles()">
+                </div>
+                <!-- Yeh button sirf laptop par dikhega -->
+                <button id="adminBtn" class="admin-toggle-btn" onclick="toggleAdmin()">⚙️ Manage / + Post</button>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container">
+
+        <!-- Admin Panel -->
+        <div id="admin-panel">
+            <div class="admin-header">
+                <h2>✍️ Post Manager (Add, Edit or Delete Posts)</h2>
+                <button class="btn-download" onclick="downloadUpdatedSite()">💾 Save & Download index.html</button>
+            </div>
+
+            <input type="hidden" id="editId" value="">
+            <div class="form-group">
+                <label>Category</label>
+                <select id="postCategory">
+                    <option value="Market News">Market News</option>
+                    <option value="Equity Research">Equity Research</option>
+                    <option value="Economy & Bonds">Economy & Bonds</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Article Title (Heading)</label>
+                <input type="text" id="postTitle" placeholder="Jaise: Q2 Results Analysis ya RBI Bond Update...">
+            </div>
+            <div class="form-group">
+                <label>Short Summary (2 lines jo bahar card par dikhegi)</label>
+                <input type="text" id="postSummary" placeholder="Article ke baare mein 1-2 line...">
+            </div>
+            <div class="form-group">
+                <label>Full Article Content (Pura Article Yahan Likho)</label>
+                <textarea id="postContent" rows="6" placeholder="Apna pura article yahan aaram se paragraphs mein likho..."></textarea>
+            </div>
+            <button class="btn-green" onclick="savePost()" id="saveBtn">➕ Add Post to Website</button>
+
+            <div class="manage-list">
+                <h3 style="margin-bottom: 12px;">Existing Posts (Edit ya Delete Karo):</h3>
+                <div id="admin-posts-list"></div>
+            </div>
+        </div>
+
+        <!-- Home Grid View -->
+        <div id="home-view" class="articles-grid"></div>
+
+        <!-- Single Full Article View -->
+        <div id="article-view">
+            <button class="back-btn" onclick="closeArticle()">← Back to All Articles</button>
+            <div><span id="view-tag" class="tag">Category</span></div>
+            <h1 id="view-title" class="article-title">Article Title</h1>
+            <div id="view-meta" class="article-meta">Date & Author</div>
+            <div id="view-content" class="article-content"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 <strong>The Finance Feed</strong>. Built for Readers & Market Enthusiasts.</p>
+    </footer>
+
+    <script id="main-script">
+        // Agar laptop par khula hai (file://), toh hi Admin button dikhao!
+        if (window.location.protocol === "file:") {
+            document.getElementById('adminBtn').style.display = "block";
+        }
+
+        let articles = /*ARTICLES_START*/[
+            {
+                id: 1,
+                category: "Equity Research",
+                title: "How to Analyze Corporate Earnings Calls & Operating Margins",
+                date: "October 22, 2026",
+                author: "The Finance Feed Desk",
+                summary: "Understanding management commentary, EBITDA margins, and working capital cycles is key before investing in any manufacturing or industrial company.",
+                content: "When studying publicly traded companies, looking only at the headline net profit is never enough. True equity research happens when you examine the quality of earnings and management execution.\n\n1. Operating Margins & Realization per Unit:\nAlways track whether EBITDA margins are expanding due to higher product realization or raw material tailwinds.\n\n2. Cash Conversion Cycle (CCC):\nCheck inventory days, debtor days, and working capital efficiency across quarters."
+            },
+            {
+                id: 2,
+                category: "Market News",
+                title: "Q2 Corporate Earnings Season: Key Sectoral Trends to Watch",
+                date: "October 21, 2026",
+                author: "The Finance Feed Desk",
+                summary: "Auto, capital goods, and specialized manufacturing sectors remain in focus as companies report quarterly volume growth and export demand.",
+                content: "As quarterly results roll in, market participants are closely tracking volume growth across domestic industrial and consumer segments.\n\n• Auto & Engineering: Strong two-wheeler and commercial vehicle demand continues to support ancillary manufacturers.\n• IT & Digital Services: Deal wins remain steady while management teams focus on operational efficiency."
+            },
+            {
+                id: 3,
+                category: "Economy & Bonds",
+                title: "Beginner's Guide to Government Securities (G-Secs) & Treasury Bills",
+                date: "October 19, 2026",
+                author: "The Finance Feed Desk",
+                summary: "Looking for risk-free fixed income returns? Learn how retail investors can invest in T-Bills, Floating Rate Bonds, and STRIPS directly.",
+                content: "While equities build long-term wealth, fixed-income instruments provide stability and predictable cash flows to a portfolio.\n\nWhat are Treasury Bills (T-Bills)?\nT-Bills are short-term debt instruments issued by the Government of India with tenures of 91 days, 182 days, and 364 days."
+            }
+        ]/*ARTICLES_END*/;
+
+        const homeView = document.getElementById('home-view');
+        const articleView = document.getElementById('article-view');
+        const adminPanel = document.getElementById('admin-panel');
+        let currentCategory = 'All';
+
+        function renderArticles(list) {
+            homeView.innerHTML = '';
+            if (list.length === 0) {
+                homeView.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#64748b; padding:40px;">No articles found.</p>';
+                return;
+            }
+            list.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => openArticle(item.id);
+                card.innerHTML = `
+                    <div class="card-banner"></div>
+                    <div class="card-body">
+                        <span class="tag">${item.category}</span>
+                        <h2>${item.title}</h2>
+                        <p>${item.summary}</p>
+                        <div class="card-footer">
+                            <span>📅 ${item.date}</span>
+                            <span class="read-btn">Read Full Story →</span>
+                        </div>
+                    </div>
+                `;
+                homeView.appendChild(card);
+            });
+            if (window.location.protocol === "file:") {
+                renderAdminList();
+            }
+        }
+
+        function renderAdminList() {
+            const listDiv = document.getElementById('admin-posts-list');
+            if(!listDiv) return;
+            listDiv.innerHTML = '';
+            articles.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'manage-item';
+                row.innerHTML = `
+                    <span><strong>[${item.category}]</strong> ${item.title}</span>
+                    <div>
+                        <button class="btn-edit" onclick="editPost(${item.id})">✏️ Edit</button>
+                        <button class="btn-delete" onclick="deletePost(${item.id})">🗑️ Delete</button>
+                    </div>
+                `;
+                listDiv.appendChild(row);
+            });
+        }
+
+        function toggleAdmin() {
+            adminPanel.style.display = adminPanel.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function savePost() {
+            const editId = document.getElementById('editId').value;
+            const category = document.getElementById('postCategory').value;
+            const title = document.getElementById('postTitle').value.trim();
+            const summary = document.getElementById('postSummary').value.trim();
+            const content = document.getElementById('postContent').value.trim();
+
+            if (!title || !summary || !content) {
+                alert("Bhai Title, Summary aur Content teeno bharna zaroori hai!");
+                return;
+            }
+
+            const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+            if (editId) {
+                const idx = articles.findIndex(a => a.id == editId);
+                if (idx > -1) {
+                    articles[idx] = { ...articles[idx], category, title, summary, content };
+                }
+                document.getElementById('editId').value = '';
+                document.getElementById('saveBtn').innerText = '➕ Add Post to Website';
+            } else {
+                const newArticle = {
+                    id: Date.now(),
+                    category,
+                    title,
+                    date: today,
+                    author: "The Finance Feed Desk",
+                    summary,
+                    content
+                };
+                articles.unshift(newArticle);
+            }
+
+            document.getElementById('postTitle').value = '';
+            document.getElementById('postSummary').value = '';
+            document.getElementById('postContent').value = '';
+            renderArticles(articles);
+            alert("Post update ho gaya! Ab upar 'Save & Download index.html' button dabao.");
+        }
+
+        function editPost(id) {
+            const item = articles.find(a => a.id === id);
+            if (!item) return;
+            document.getElementById('editId').value = item.id;
+            document.getElementById('postCategory').value = item.category;
+            document.getElementById('postTitle').value = item.title;
+            document.getElementById('postSummary').value = item.summary;
+            document.getElementById('postContent').value = item.content;
+            document.getElementById('saveBtn').innerText = '✔️ Update Post';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function deletePost(id) {
+            articles = articles.filter(a => a.id !== id);
+            renderArticles(articles);
+        }
+
+        function downloadUpdatedSite() {
+            adminPanel.style.display = 'none';
+            let fullHtml = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+            const updatedArticlesJson = JSON.stringify(articles, null, 4);
+            fullHtml = fullHtml.replace(/\/\*ARTICLES_START\*\/[\s\S]*?\/\*ARTICLES_END\*\//, "/*ARTICLES_START*/" + updatedArticlesJson + "/*ARTICLES_END*/");
+
+            const blob = new Blob([fullHtml], { type: 'text/html' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'index.html';
+            a.click();
+        }
+
+        function openArticle(id) {
+            const item = articles.find(a => a.id === id);
+            if (!item) return;
+            document.getElementById('view-tag').innerText = item.category;
+            document.getElementById('view-title').innerText = item.title;
+            document.getElementById('view-meta').innerText = `Published on ${item.date} • By ${item.author}`;
+            document.getElementById('view-content').innerText = item.content;
+
+            homeView.style.display = 'none';
+            articleView.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function closeArticle() {
+            articleView.style.display = 'none';
+            homeView.style.display = 'grid';
+        }
+
+        function filterArticles(category, btnElement) {
+            currentCategory = category;
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+            closeArticle();
+
+            const filtered = category === 'All'
+                ? articles
+                : articles.filter(a => a.category === category);
+            renderArticles(filtered);
+        }
+
+        function searchArticles() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            closeArticle();
+            const filtered = articles.filter(a =>
+                (currentCategory === 'All' || a.category === currentCategory) &&
+                (a.title.toLowerCase().includes(query) || a.summary.toLowerCase().includes(query))
+            );
+            renderArticles(filtered);
+        }
+
+        renderArticles(articles);
+    </script>
+</body>
+</html>
