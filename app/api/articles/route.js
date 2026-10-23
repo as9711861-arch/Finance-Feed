@@ -13,11 +13,17 @@ export async function GET() {
 
 export async function POST(req) {
   if (!(await isAdmin())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  const data = clean(await req.json());
-  if (!data.title) return NextResponse.json({ error: 'Title is required' }, { status: 400 });
-  const id = 'a' + crypto.randomBytes(4).toString('hex');
-  const now = Date.now();
-  await redis.set(`article:${id}`, { id, ...data, createdAt: now, updatedAt: now });
-  await redis.zadd('articles', { score: now, member: id });
-  return NextResponse.json({ id });
+  try {
+    const data = clean(await req.json());
+    if (!data.title) return NextResponse.json({ error: 'Title is required' }, { status: 400 });
+    const id = 'a' + crypto.randomBytes(4).toString('hex');
+    const now = Date.now();
+    await redis.set(`article:${id}`, { id, ...data, createdAt: now, updatedAt: now });
+    await redis.zadd('articles', { score: now, member: id });
+    return NextResponse.json({ id });
+  } catch (e) {
+    console.error(e);
+    const m = String(e?.message || e).replace(/https?:\/\/\S+/g, '[url]').slice(0, 160);
+    return NextResponse.json({ error: 'Could not save: ' + m }, { status: 500 });
+  }
 }
