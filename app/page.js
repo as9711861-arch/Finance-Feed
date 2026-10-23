@@ -16,7 +16,7 @@ const overview = {
   belowLineFillColorGrowingBottom: 'rgba(10, 27, 51, 0)', belowLineFillColorFallingBottom: 'rgba(161, 38, 38, 0)',
   symbolActiveColor: 'rgba(10, 27, 51, 0.08)',
   tabs: [
-    { title: 'India', symbols: [{ s: 'BSE:SENSEX', d: 'Sensex' }, { s: 'NSE:NIFTY', d: 'Nifty 50' }, { s: 'NSE:BANKNIFTY', d: 'Bank Nifty' }, { s: 'NSE:CNXIT', d: 'Nifty IT' }] },
+    { title: 'India', symbols: [{ s: 'BSE:SENSEX', d: 'Sensex' }, { s: 'BSE:BANKEX', d: 'Bankex' }, { s: 'BSE:SENSEX50', d: 'Sensex 50' }, { s: 'FX_IDC:USDINR', d: 'USD/INR' }] },
     { title: 'Global', symbols: [{ s: 'FOREXCOM:SPXUSD', d: 'S&P 500' }, { s: 'FOREXCOM:NSXUSD', d: 'Nasdaq 100' }, { s: 'FOREXCOM:UKXGBP', d: 'FTSE 100' }, { s: 'INDEX:NKY', d: 'Nikkei 225' }] },
     { title: 'Commodities', symbols: [{ s: 'TVC:GOLD', d: 'Gold' }, { s: 'TVC:SILVER', d: 'Silver' }, { s: 'TVC:UKOIL', d: 'Brent' }, { s: 'FX_IDC:USDINR', d: 'USD/INR' }] },
   ],

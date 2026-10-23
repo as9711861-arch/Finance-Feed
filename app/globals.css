@@ -143,3 +143,14 @@ textarea{font-family:var(--serif),serif;font-size:16px;line-height:1.6}
   .arow{flex-direction:column;align-items:flex-start}
   .admin{padding:20px}
 }
+.qt{background:#050e1b;height:46px;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.08);font:500 13px var(--sans),sans-serif;color:#c5d0e0}
+.qt-track{display:flex;width:max-content;height:100%;align-items:center;animation:qt 50s linear infinite}
+.qt:hover .qt-track{animation-play-state:paused}
+.qt-set{display:flex}
+.qi{display:inline-flex;align-items:center;gap:10px;padding:0 22px;border-right:1px solid rgba(255,255,255,.1);white-space:nowrap}
+.qi b{color:#fff;font-weight:600}
+.qi em{font-style:normal;font-weight:600}
+.qi .up{color:#2ecc8f}
+.qi .dn{color:#ff5c5c}
+@keyframes qt{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.qt{overflow-x:auto}.qt-track{animation:none}}

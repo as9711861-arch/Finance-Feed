@@ -1,6 +1,6 @@
 import { Playfair_Display, Source_Serif_4, Inter } from 'next/font/google';
 import Link from 'next/link';
-import TV from '@/components/TV';
+import LiveTicker from '@/components/LiveTicker';
 import { listArticles } from '@/lib/db';
 import './globals.css';
 
@@ -21,8 +21,6 @@ export const dynamic = 'force-dynamic';
 const tape = {
   symbols: [
     { proName: 'BSE:SENSEX', title: 'Sensex' },
-    { proName: 'NSE:NIFTY', title: 'Nifty 50' },
-    { proName: 'NSE:BANKNIFTY', title: 'Bank Nifty' },
     { proName: 'FX_IDC:USDINR', title: 'USD/INR' },
     { proName: 'TVC:GOLD', title: 'Gold' },
     { proName: 'TVC:UKOIL', title: 'Brent' },
@@ -41,7 +39,7 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en" className={`${display.variable} ${serif.variable} ${sans.variable}`}>
       <body>
-        <TV type="ticker-tape" config={tape} height={46} />
+        <LiveTicker fallback={tape} />
         <header className="mast">
           <div className="wrap mast-in">
             <Link href="/" className="brand">
@@ -60,7 +58,7 @@ export default async function RootLayout({ children }) {
           <div className="wrap foot-in">
             <div>
               <div className="foot-brand">Finance Feed</div>
-              <p>Content on Finance Feed is published for informational and educational purposes only. It is not investment advice or a recommendation to buy or sell any security. Market data is provided by TradingView and may be delayed.</p>
+              <p>Content on Finance Feed is published for informational and educational purposes only. It is not investment advice or a recommendation to buy or sell any security. Market data comes from third-party providers and may be delayed.</p>
             </div>
             <div className="foot-r">
               <span>&copy; {new Date().getFullYear()} Finance Feed</span>
