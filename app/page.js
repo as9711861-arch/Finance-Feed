@@ -35,8 +35,7 @@ export default async function Home({ searchParams }) {
       {!lead && <p className="empty">No articles have been published yet. Please check back soon.</p>}
       {lead && (
         <section className="hero">
-          {lead.cover && <img className="hero-bg" src={lead.cover} alt="" />}
-          <div className="hero-shade" />
+          {lead.cover && <Link href={`/article/${lead.id}`} className="hero-img"><img src={lead.cover} alt="" /></Link>}
           <div className="hero-txt">
             <div className="cat">{lead.category}</div>
             <h1><Link href={`/article/${lead.id}`}>{lead.title}</Link></h1>
