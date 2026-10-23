@@ -14,7 +14,7 @@ export async function GET() {
 export async function POST(req) {
   if (!(await isAdmin())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const data = clean(await req.json());
-  if (!data.title) return NextResponse.json({ error: 'Title chahiye' }, { status: 400 });
+  if (!data.title) return NextResponse.json({ error: 'Title is required' }, { status: 400 });
   const id = 'a' + crypto.randomBytes(4).toString('hex');
   const now = Date.now();
   await redis.set(`article:${id}`, { id, ...data, createdAt: now, updatedAt: now });

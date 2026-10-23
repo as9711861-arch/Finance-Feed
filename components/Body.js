@@ -5,7 +5,12 @@ export default function Body({ text }) {
         const b = blk.trim();
         if (!b) return null;
         const img = b.match(/^!\[(.*?)\]\((\/api\/img\/[a-z0-9]+)\)$/);
-        if (img) return <figure key={i}><img src={img[2]} alt={img[1]} /></figure>;
+        if (img) return (
+          <figure key={i}>
+            <img src={img[2]} alt={img[1]} loading="lazy" />
+            {img[1] && <figcaption>{img[1]}</figcaption>}
+          </figure>
+        );
         if (b.startsWith('## ')) return <h2 key={i}>{b.slice(3)}</h2>;
         if (b.startsWith('> ')) return <blockquote key={i}>{b.slice(2)}</blockquote>;
         return <p key={i}>{b}</p>;

@@ -9,7 +9,7 @@ export async function POST(req) {
   const pw = process.env.ADMIN_PASSWORD || '';
   if (!pw || !crypto.timingSafeEqual(h(password), h(pw))) {
     await new Promise((r) => setTimeout(r, 800));
-    return NextResponse.json({ error: 'Galat password' }, { status: 401 });
+    return NextResponse.json({ error: 'Incorrect password' }, { status: 401 });
   }
   const res = NextResponse.json({ ok: true });
   res.cookies.set('ff_admin', token(), {

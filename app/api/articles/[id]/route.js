@@ -11,7 +11,7 @@ export async function PUT(req, { params }) {
   const old = await getArticle(id);
   if (!old) return NextResponse.json({ error: 'Not found' }, { status: 404 });
   const data = clean(await req.json());
-  if (!data.title) return NextResponse.json({ error: 'Title chahiye' }, { status: 400 });
+  if (!data.title) return NextResponse.json({ error: 'Title is required' }, { status: 400 });
   await redis.set(`article:${id}`, { ...old, ...data, updatedAt: Date.now() });
   return NextResponse.json({ ok: true });
 }
