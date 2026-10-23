@@ -1,14 +1,23 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { token, adminPassword } from '@/lib/auth';
+import { redis, redisInfo } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
 const h = (s) => crypto.createHash('sha256').update(String(s)).digest();
 
-// Open /api/login in the browser to check whether the server can see ADMIN_PASSWORD.
+// Open /api/login in the browser to check password + database connection.
 export async function GET() {
-  return NextResponse.json({ passwordConfigured: !!adminPassword() });
+  let redisStatus = 'ok';
+  try { await redis.ping(); }
+  catch (e) { redisStatus = 'error: ' + String(e?.message || e).replace(/https?:\/\/\S+/g, '[url]').slice(0, 160); }
+  return NextResponse.json({
+    passwordConfigured: !!adminPassword(),
+    redisUrlFound: redisInfo.urlFound,
+    redisTokenFound: redisInfo.tokenFound,
+    redisStatus,
+  });
 }
 
 export async function POST(req) {
